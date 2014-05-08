@@ -3,7 +3,7 @@
   <%= current_user.name %>
 </h1>
 <span>
-  <%= link_to "My profile", current_user %>
+  <%= link_to "View profile", current_user %>
 </span>
 <span>
   <%= pluralize(current_user.entries.count, "entry") %>
