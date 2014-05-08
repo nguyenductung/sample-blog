@@ -20,5 +20,11 @@ namespace :db do
                    password: password,
                    password_confirmation: password)
     end
+    users = User.all(limit: 6)
+    50.times do |n|
+      title = "Entry #{n+1}"
+      content = Faker::Lorem.paragraph((5..20).to_a.sample)
+      users.each { |user| user.entries.create!(title: title, content: content) }
+    end
   end
 end
