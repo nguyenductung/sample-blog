@@ -9,7 +9,8 @@ class EntriesController < ApplicationController
     @entry = current_user.entries.build(entry_params)
     if @entry.save
       flash[:success] = "Entry created!"
-      redirect_to root_url
+      redirect_back
+      #redirect_to root_url
     else
       @feed_items = []
       render 'static_pages/home'
@@ -18,7 +19,8 @@ class EntriesController < ApplicationController
 
   def destroy
     @entry.destroy
-    redirect_to root_url
+    redirect_back
+    #redirect_to root_url
   end
   
   private

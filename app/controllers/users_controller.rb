@@ -9,7 +9,8 @@ class UsersController < ApplicationController
   end
   
   def show
-    @user = User.find(params[:id])
+    @entry   = current_user.entries.build if signed_in?
+    @user    = User.find(params[:id])
     @entries = @user.entries.paginate(page: params[:page], per_page: 10)
   end
   

@@ -16,6 +16,14 @@ module SessionsHelper
     !current_user.nil?
   end
   
+  def redirect_back  
+    if request.env["HTTP_REFERER"].present? and request.env["HTTP_REFERER"] != request.env["REQUEST_URI"]
+      redirect_to :back
+    else
+      redirect_to root_url
+    end
+  end
+  
   def redirect_back_or(default)
     redirect_to(session[:return_to] || default)
     session.delete(:return_to)
