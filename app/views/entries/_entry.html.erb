@@ -1,11 +1,15 @@
 <li>
-  <span class="title"><%= wrap(entry.title) %></span>
+  <span class="title">
+    <a href=<%= entry_path(entry) %>><%= wrap(entry.title) %></a>
+  </span>
   <span class="content"><%= wrap(entry.content) %></span>
   <span class="timestamp">
-    <%= entry.created_at %>. 
+    <%= entry.created_at %>. <%= pluralize(entry.comments.count, "comment") %>.
   </span>
   <% if current_user?(entry.user) %>    
-    <div class="btn btn-mini">Edit</div>                     
+    <%= link_to(edit_entry_path(entry)) do %>
+      <div class="btn btn-mini">Edit</div>
+    <% end %>                     
     <%= link_to(entry, method: :delete, data: { confirm: "Are you sure?" }, title: entry.content) do %>
       <div class="btn btn-mini">Delete</div>
     <% end %>

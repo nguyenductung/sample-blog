@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :entries, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :relationships, source: :followed
   has_many :reverse_relationships, foreign_key: "followed_id",
@@ -42,6 +43,10 @@ class User < ActiveRecord::Base
     relationships.find_by(followed_id: other_user.id).destroy
   end
 
+  def comment!(entry, content)
+    Comment.create!(user_id: self.id, entry_id: entry.id, content: content)
+  end
+  
   private
 
     def create_remember_token

@@ -1,10 +1,11 @@
-<%= link_to gravatar_for(current_user, size: 64), current_user %>
+<% user ||= current_user %>
+<%= link_to gravatar_for(user, size: 64), user %>
 <h1>
-  <%= current_user.name %>
+  <%= user.name %>
 </h1>
 <span>
-  <%= link_to "View profile", current_user %>
+  <%= link_to "View profile", user %>
 </span>
 <span>
-  <%= pluralize(current_user.entries.count, "entry") %>
+  <%= pluralize(user.entries.count, "entry") %>
 </span>

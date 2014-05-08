@@ -1,8 +1,15 @@
 class EntriesController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy]
-  before_action :correct_user,   only: :destroy
+  before_action :signed_in_user, only: [:create, :destroy, :edit, :update]
+  before_action :correct_user,   only: [:edit, :update, :destroy]
 
   def index
+  end
+
+  def show
+    @entry = Entry.find(params[:id])
+    @user = User.find(@entry.user_id) unless @entry.nil?
+    @comments = @entry.comments.paginate(page: params[:page], per_page: 10)
+    @comment  = @entry.comments.build if signed_in?
   end
 
   def create
@@ -14,6 +21,21 @@ class EntriesController < ApplicationController
     else
       @feed_items = []
       render 'static_pages/home'
+    end
+  end
+
+  def edit
+    @entry = Entry.find(params[:id])
+    @user = User.find(@entry.user_id) unless @entry.nil?
+  end
+
+  def update
+    @entry = Entry.find(params[:id])
+    if @entry.update_attributes(entry_params)
+      flash[:success] = "Entry updated"
+      redirect_to @entry
+    else
+      render 'edit'
     end
   end
 
