@@ -10,7 +10,8 @@
       <span class="content"><%= comment.content %></span>
       <span class="timestamp"><%= comment.created_at %></span>
       <% if current_user?(comment.user) %>    
-         <!--<div class="btn btn-mini">Edit</div>-->                     
+         <!--<div class="btn btn-mini">Edit</div>-->
+         <a href="#editComment" role="button" class="btn btn-mini" data-toggle="modal">Edit</a>                 
          <%= link_to(comment, method: :delete, data: { confirm: "Are you sure?" }, title: comment.content) do %>
            <div class="btn btn-mini">Delete</div>
          <% end %>
@@ -18,3 +19,26 @@
     </div>
   </div>
 </li>
+
+<div id="editComment" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Edit comment</h3>
+  </div>
+  <%= form_for(comment) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="modal-body">
+    <div class="field">
+      <%= f.text_area :content, placeholder: "New comment...", rows: 3 %>
+    </div>
+    </div>
+    <div><%= f.hidden_field :user_id, value: comment.user_id %></div>
+    <div><%= f.hidden_field :entry_id, value: comment.entry_id %></div>
+    <div class="modal-footer">
+    <%= f.submit "Post" do %>
+      <button class="btn btn-mini btn-primary">Save</button>
+    <% end %>
+    <button class="btn btn-mini" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  <% end %>
+</div>
