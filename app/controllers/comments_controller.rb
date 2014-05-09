@@ -1,20 +1,17 @@
 class CommentsController < ApplicationController
   before_action :signed_in_user, only: [:create, :destroy]
   before_action :correct_user,   only: :destroy
-  before_action :following_user, only: :create
+  before_action :owner_or_followed_user, only: :create
  
   def index
   end
   
   def create
-    #@comment = current_user.comments.build(comment_params)
     @comment = Comment.create(content: comment_params[:content], entry_id: comment_params[:entry_id], user_id: comment_params[:user_id])
     if @comment.save
       flash[:success] = "Comment posted!"
       redirect_back
     else
-      #@feed_items = []
-      #render entry_path, id: comment_params[:entry_id]
       @entry = Entry.find(comment_params[:entry_id])
       @comments = @entry.comments.paginate(page: params[:page], per_page: 10) unless @entry.nil?
       render 'entries/show'
@@ -37,7 +34,11 @@ class CommentsController < ApplicationController
       redirect_to root_url if @comment.nil?
     end
     
-    def following_user
-      
+    def owner_or_followed_user
+      entry = Entry.find(comment_params[:entry_id])
+      owner = User.find(entry.user_id) unless entry.nil?
+      if !owner.nil? && !(owner == current_user || current_user.following?(owner))
+        redirect_to root_url
+      end
     end
 end

@@ -248,6 +248,9 @@ input {
   display: block;
   color: $grayLight;
   font-size: 0.8em;
+  a {
+    color: $grayLight;
+  }
 }
 .user {
   font-weight:bold;

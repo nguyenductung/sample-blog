@@ -4,7 +4,8 @@
   </span>
   <span class="content"><%= wrap(entry.content) %></span>
   <span class="timestamp">
-    <%= entry.created_at %>. <%= pluralize(entry.comments.count, "comment") %>.
+    <%= entry.created_at %>.
+     <a href=<%= entry_path(entry) %>><%= pluralize(entry.comments.count, "comment") %></a>.
   </span>
   <% if current_user?(entry.user) %>    
     <%= link_to(edit_entry_path(entry)) do %>

@@ -10,7 +10,7 @@
       <span class="content"><%= comment.content %></span>
       <span class="timestamp"><%= comment.created_at %></span>
       <% if current_user?(comment.user) %>    
-         <div class="btn btn-mini">Edit</div>                     
+         <!--<div class="btn btn-mini">Edit</div>-->                     
          <%= link_to(comment, method: :delete, data: { confirm: "Are you sure?" }, title: comment.content) do %>
            <div class="btn btn-mini">Delete</div>
          <% end %>
