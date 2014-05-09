@@ -5,13 +5,13 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
   
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.paginate(page: params[:page], per_page: 3)
   end
   
   def show
     @entry   = current_user.entries.build if signed_in?
     @user    = User.find(params[:id])
-    @entries = @user.entries.paginate(page: params[:page], per_page: 10)
+    @entries = @user.entries.paginate(page: params[:page], per_page: 3)
   end
   
   def new
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     @title = "Following"
     @user = User.find(params[:id])
     @allusers = @user.followed_users
-    @users = @user.followed_users.paginate(page: params[:page])
+    @users = @user.followed_users.paginate(page: params[:page], per_page: 3)
     render 'show_follow'
   end
 
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
     @title = "Followers"
     @user = User.find(params[:id])
     @allusers = @user.followers
-    @users = @user.followers.paginate(page: params[:page])
+    @users = @user.followers.paginate(page: params[:page], per_page: 3)
     render 'show_follow'
   end
 

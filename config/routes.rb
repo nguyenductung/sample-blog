@@ -5,7 +5,7 @@ SampleApp::Application.routes.draw do
     end
   end
   resources :sessions,      only: [:new, :create, :destroy]
-  resources :entries,       only: [:show, :create, :edit, :update, :destroy]
+  resources :entries,       only: [:index, :show, :create, :edit, :update, :destroy]
   resources :relationships, only: [:create, :destroy]
   resources :comments,      only: [:create, :destroy]
   

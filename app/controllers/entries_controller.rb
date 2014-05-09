@@ -3,13 +3,16 @@ class EntriesController < ApplicationController
   before_action :correct_user,   only: [:edit, :update, :destroy]
 
   def index
+    @entries = Entry.paginate(page: params[:page], per_page: 3)
+    @with_avatar = true
   end
 
   def show
     @entry = Entry.find(params[:id])
     @user = User.find(@entry.user_id) unless @entry.nil?
-    @comments = @entry.comments.paginate(page: params[:page], per_page: 10)
+    @comments = @entry.comments.paginate(page: params[:page], per_page: 3)
     @comment  = @entry.comments.build if signed_in?
+    @with_avatar = false
   end
 
   def create
